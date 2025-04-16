@@ -1,0 +1,60 @@
+<x-layout>
+
+<div class="pagetitle">
+    <h1>Tambah Pengguna</h1>
+       <nav>
+           <ol class="breadcrumb">
+               <li class="breadcrumb-item"><a href="">List Pengguna</a></li>
+               <li class="breadcrumb-item active">Tambah Pengguna</li>
+           </ol>
+       </nav>
+   </div>
+           
+       <div class="card shadow-sm border-0 rounded-lg"> 
+           <div class="card-body p-4"> 
+               <form action="" method="POST" enctype="multipart/form-data">
+                   @csrf
+   
+                
+                   
+                   <div class="mb-3">
+                       <label for="" class="form-label">Nama</label>
+                       <input type="text" class="form-control" name="" id="" value="">
+                       @error('') <small class="text-danger"></small> @enderror
+                   </div>
+
+                   <div class="mb-3">
+                       <label for="" class="form-label"></label>
+                       <input type="email" class="form-control" name="" id="" value="">
+                       @error('') <small class="text-danger"></small> @enderror
+                   </div>
+   
+                   
+                   <div class="mb-3">
+                       <label for="" class="form-label">Kata Sandi</label>
+                       <input type="password" class="form-control" name="" id="" value="">
+                       @error('') <small class="text-danger"></small> @enderror
+                   </div>
+
+                <div class="mb-3">
+                    <label for="" class="form-label">Peran</label>
+                    <div class="input-group">
+                        <select class="form-select" name="">
+                            <option value="">Admin</option>
+                            <option value="">Petugas</option>
+                        </select>
+                    </div>
+                </div>
+            
+       
+                   <button type="submit" class="btn btn-primary">Simpan</button>
+               </form>
+           </div>
+       </div>
+   </x-layout>
+   
+   
+   
+   
+   
+   
