@@ -38,6 +38,8 @@
                         <div class="text-end fw-bold">
                             <p>Total Harga: Rp. {{ number_format($transactionData['total_price'], 0, ',', '.') }}</p>
                             <p>Total Bayar: Rp. {{ number_format($transactionData['amount_paid'], 0, ',', '.') }}</p>
+                            <p class="mb-3 text-danger small">Poin Transaksi yang didapat saat ini: {{ floor($transactionData['total_price'] * 0.01) }} poin</p>
+
                         </div>
                     </div>
 
@@ -72,6 +74,7 @@
                                     {{ $isReturningCustomer ? '' : 'disabled' }}>
                                 <label class="form-check-label" for="use_points">Gunakan poin</label>
                             </div>
+
 
                             @if (!$isReturningCustomer)
                                 <div class="mb-3 text-danger small">

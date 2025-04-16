@@ -18,7 +18,7 @@
                
                  
                   <div class="table-responsive">
-                      <table class="table table-striped align-middle w-100" style="table-layout: fixed;">
+                      <table id="penjualanTable" class="table table-striped align-middle w-100" style="table-layout: fixed;">
                           <thead class="table-light">
                               <tr>
                                   <th style="width: 5%;">#</th>
@@ -46,7 +46,19 @@
               </div>
           </div>
       </div>
-      
+
+      @push('scripts')
+        <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap5.min.css">
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+        <script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap5.min.js"></script>
+
+        <script>
+            $(document).ready(function () {
+                $('#penjualanTable').DataTable();
+            });
+        </script>
+    @endpush
    
 </x-layout>
 

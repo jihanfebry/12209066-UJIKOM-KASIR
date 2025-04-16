@@ -1,13 +1,15 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\UserController;
-use App\Http\Controllers\ProductController;
-use App\Http\Controllers\OrderController;
-use App\Http\Controllers\DashboardController;
+use App\Exports\UserExport;
+use App\Exports\ProductExport;
 use App\Exports\PenjualanExport;
 use Illuminate\Support\Facades\Auth;
 use Maatwebsite\Excel\Facades\Excel;
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\OrderController;
+use App\Http\Controllers\ProductController;
+use App\Http\Controllers\DashboardController;
 
 
 Route::middleware(['guest'])->group(function(){
@@ -29,6 +31,10 @@ Route::get('/export', function () {
     }
 })->name('penjualan.export');
 
+
+
+
+
 Route::get('/print/{order}', [OrderController::class, 'print'])->name('order.print');
 
 Route::middleware(['auth', 'role:admin'])->group(function () {
@@ -49,6 +55,14 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::delete('/admin/product/{id}', [ProductController::class, 'destroy'])->name('admin.product.destroy');
 
     Route::get('/admin/purchase/index', [OrderController::class, 'index'])->name('admin.purchase.index');
+
+    Route::get('/admin/product/export', function () {
+        return Excel::download(new ProductExport, 'produk.xlsx');
+    })->name('admin.product.export');
+
+    Route::get('/admin/user/export', function () {
+        return Excel::download(new UserExport, 'user.xlsx');
+    })->name('admin.user.export');
 });
 
 

@@ -2,16 +2,43 @@
 
 namespace App\Exports;
 
-use App\Models\Product;
+use App\Models\User;
 use Maatwebsite\Excel\Concerns\FromCollection;
+use Maatwebsite\Excel\Concerns\WithHeadings;
+use Maatwebsite\Excel\Concerns\WithMapping;
 
-class UserExport implements FromCollection
+class UserExport implements FromCollection, WithHeadings, WithMapping
 {
-    /**
-    * @return \Illuminate\Support\Collection
-    */
     public function collection()
     {
-        return Product::all();
+        return User::all();
     }
+
+    public function map($user): array
+    {
+        return [
+            $user->id,
+            $user->name,
+            $user->email,
+            ucfirst($user->role),
+        ];
+    }
+
+    public function headings(): array
+    {
+        return [
+            ['PointKasir | Export Data User'],
+          
+            [''],
+            [
+            'ID',
+            'Nama',
+            'Email',
+            'Role',
+            ]
+            
+        ];
+    }
+
+    
 }

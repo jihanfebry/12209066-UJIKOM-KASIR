@@ -42,7 +42,7 @@
                                         <button type="button" class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#detailModal-{{ $order->id }}">
                                             Lihat
                                         </button>                                                                                                           
-                                        <a href="" class="btn btn-primary btn-sm">Unduh Bukti</a>
+                                        <a href="{{ route('order.print', $order->id) }}" class="btn btn-primary btn-sm">Unduh Bukti</a>
                                     </td>
                                 </tr>
                             @endforeach

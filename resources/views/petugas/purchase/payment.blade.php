@@ -13,19 +13,16 @@
         <div class="card shadow-sm border-0 rounded-lg">
             <div class="card-body p-4">
                 <div class="row">
-                    {{-- Kolom Kiri: Produk --}}
                     <div class="col-md-6">
                         <h4 class="fw-bold mb-3">Produk yang Dipilih</h4>
                         <div id="selected-products"></div>
                         <h5 class="fw-bold mt-3">Total Harga <span id="total-price" class="float-end">Rp. 0</span></h5>
                     </div>
 
-                    {{-- Kolom Kanan: Form --}}
                     <div class="col-md-6">
                         <form action="{{ route('petugas.payment.store') }}" method="POST">
                             @csrf
 
-                            {{-- Status Customer --}}
                             <div class="mb-3">
                                 <label for="customer-status" class="form-label">Status Customer</label>
                                 <select id="customer-status" name="customer_status" class="form-select">
@@ -34,13 +31,11 @@
                                 </select>
                             </div>
 
-                            {{-- Input nomor telepon (hanya muncul jika Member) --}}
                             <div id="phone-input-container" class="mb-3" style="display: none;">
                                 <label class="form-label">No Telepon <span class="text-danger">(Daftar/gunakan member)</span></label>
                                 <input type="text" id="phone" name="phone" class="form-control" value="{{ old('phone') }}" placeholder="Masukkan nomor telepon">
                             </div>
 
-                            {{-- Jumlah Dibayar --}}
                             <div class="mb-3">
                                 <label class="form-label">Jumlah Dibayar</label>
                                 <input type="text" class="form-control" id="amount-paid" placeholder="Masukkan jumlah bayar">
@@ -48,13 +43,12 @@
                                 <small id="error-message" class="text-danger d-none">Jumlah bayar kurang.</small>
                             </div>
 
-                            {{-- Hidden Total Harga --}}
+                           
                             <input type="hidden" name="total_price" id="input-total-price">
 
-                            {{-- Produk Hidden --}}
+                        
                             <div id="product-inputs"></div>
 
-                            {{-- Tombol Submit --}}
                             <button class="btn btn-primary w-100 mt-3 mb-3" id="btn-submit" disabled>Selesaikan Pembayaran</button>
                         </form>
                     </div>

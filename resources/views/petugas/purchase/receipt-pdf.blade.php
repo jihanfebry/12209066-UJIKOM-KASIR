@@ -61,6 +61,10 @@
             <td class="text-end">Rp. {{ number_format($order->final_price, 0, ',', '.') }}</td>
         </tr>
         <tr>
+            <td><strong>Total Bayar</strong></td>
+            <td class="text-end">Rp. {{ number_format($order->amount_paid, 0, ',', '.') }}</td>
+        </tr>
+        <tr>
             <td><strong>Total Kembalian</strong></td>
             <td class="text-end">Rp. {{ number_format($order->change, 0, ',', '.') }}</td>
         </tr>

@@ -12,19 +12,16 @@
                 </div>
             </div>
 
-                    {{-- Info Member (hanya jika customer adalah member) --}}
+                    
                     @if ($order->customer && $order->customer->phone)
                     <div class="mb-4">
-                        <div><strong>{{ $order->customer->phone }}</strong></div>
+                        <div>NO. HP :{{ $order->customer->phone }}</div>
                         <div>MEMBER SEJAK : {{ \Carbon\Carbon::parse($order->customer->created_at)->translatedFormat('d F Y') }}</div>
                         <div>MEMBER POIN : {{ $order->customer->points }}</div>
                     </div>
                 @endif
                 
-                
-
-
-            {{-- Tabel Produk --}}
+    
             <table class="table table-borderless">
                 <thead class="border-bottom">
                     <tr>
@@ -46,25 +43,29 @@
                 </tbody>
             </table>
 
-            {{-- Ringkasan Pembayaran --}}
+       
             <div class="row mt-4 align-items-center bg-light p-3 rounded">
-                <div class="col-md-3">
+                <div class="col-md-2">
                     <div class="text-muted small">POIN DIGUNAKAN</div>
                     <div class="fw-bold fs-5">{{ (int) $order->discount }}</div>    
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-2">
                     <div class="text-muted small">KASIR</div>
                     <div class="fw-bold fs-5">{{ auth()->user()->name }}</div>
                 </div>                
-                <div class="col-md-3">
+                <div class="col-md-2">
+                    <div class="text-muted small">TOTAL BAYAR</div>
+                    <div class="fw-bold fs-5">Rp. {{ number_format($order->amount_paid, 0, ',', '.') }}</div>
+                </div>
+                <div class="col-md-2">
                     <div class="text-muted small">KEMBALIAN</div>
                     <div class="fw-bold fs-5">Rp. {{ number_format($order->change, 0, ',', '.') }}</div>
                 </div>
-                <div class="col-md-3 bg-dark text-white p-3 rounded text-end">
+                <div class="col-md-4 bg-dark text-white p-3 rounded text-end">
                     <div class="text-uppercase small">Total Harga</div>
                 
                     @php
-                        // Hitung total sebelum diskon
+                      
                         $totalBeforeDiscount = $order->orderDetails->sum(function($item) {
                             return $item->unit_price * $item->quantity;
                         });
