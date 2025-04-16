@@ -34,36 +34,36 @@
                           </thead>
           
                           <tbody>
-
-                              <tr>
-                                  <td></td>
-                                  <td><img src="" width="50" height="50" style="object-fit:cover; border-radius:5px;"></td>
-                                  <td></td>
-                                  <td></td>
-                                  <td></td>
-                                  <td>
-                                      <div class="d-flex justify-content-between">
-                                          <a href="{{route('admin.product.edit') }}" class="btn btn-warning btn-sm">Edit</a>
-                                          <button type="button" class="btn btn-info btn-sm" 
-                                              data-bs-toggle="modal"
-                                              data-bs-target="#updateStockModal"
-                                              data-id = ""
-                                              data-name = ""
-                                              data-stock = "">
-                                              Update Stock
-                                          </button>
-                                          <button type="button" class="btn btn-danger btn-sm" 
-                                              data-bs-toggle="modal"
-                                              data-bs-target= "#deleteModal"
-                                              data-id = ""
-                                              data-name = ""
-                                              data-has-order="">
-                                              Hapus
-                                          </button>
-                                      </div>
-                                  </td>                    
-                              </tr>
-
+                            @foreach($products as $index => $product)
+                            <tr>
+                                <td>{{$index + 1}}</td>
+                                <td><img src="{{asset ('storage/'. $product->product_image)}}" width="50" height="50" style="object-fit:cover; border-radius:5px;"></td>
+                                <td>{{$product->product_name}}</td>
+                                <td>Rp {{number_format($product->price, 0, ',', '.')}}</td>
+                                <td>{{ $product->stock }}</td>
+                                <td>
+                                    <div class="d-flex justify-content-between">
+                                        <a href="{{route('admin.product.edit', $product->id)}}" class="btn btn-warning btn-sm">Edit</a>
+                                        <button type="button" class="btn btn-info btn-sm" 
+                                            data-bs-toggle="modal"
+                                            data-bs-target="#updateStockModal"
+                                            data-id = "{{ $product->id}}"
+                                            data-name = "{{ $product->product_name}}"
+                                            data-stock = "{{$product->stock}}">
+                                            Update Stock
+                                        </button>
+                                        <button type="button" class="btn btn-danger btn-sm" 
+                                            data-bs-toggle="modal"
+                                            data-bs-target= "#deleteModal"
+                                            data-id = "{{$product->id}}"
+                                            data-name = "{{$product->product_name}}"
+                                            data-has-order="{{ $product->orderDetails->count() > 0 ? 'true' : 'false' }}">
+                                            Hapus
+                                        </button>
+                                    </div>
+                                </td>                    
+                            </tr>
+                            @endforeach
                           </tbody>
                       </table>
                   </div>

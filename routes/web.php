@@ -1,99 +1,51 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
-
-Route::get('/', function () {
-    return view('login');
-})->name('login');
-
-Route::post('/login', function () {
-    return 'Proses login (dummy)';
-})->name('login.auth');
-
-Route::get('/logout', function () {
-    return 'Logout (dummy)';
-})->name('logout');
-
-Route::get('/admin/dashboard', function () {
-    return view('admin.dashboard');
-})->name('admin.dashboard');
-
-Route::get('/admin/user/index', function () {
-    return view('admin.user.index');
-})->name('admin.user.index');
-
-Route::get('/admin/user/create', function () {
-    return view('admin.user.create');
-})->name('admin.user.create');
-
-Route::get('/admin/user/{id}/edit', function ($id) {
-    return view('admin.user.edit', compact('id'));
-})->name('admin.user.edit');
-
-// PRODUCT
-Route::get('/admin/product/index', function () {
-    return view('admin.product.index');
-})->name('admin.product.index');
-
-Route::get('/admin/product/create', function () {
-    return view('admin.product.create');
-})->name('admin.product.create');
-
-Route::get('/admin/product/{id}/edit', function ($id) {
-    return view('admin.product.edit', compact('id'));
-})->name('admin.product.edit');
-
-
-Route::get('/admin/purchase/index', function () {
-    return view('admin.purchase.index');
-})->name('admin.purchase.index');
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\ProductController;
+use App\Http\Controllers\DashboardController;
 
 
 
+Route::middleware(['guest'])->group(function(){
+    Route::get('/', function () {
+        return view('login');
+    })->name('login');
+    
+    Route::post('/login', [UserController::class, 'loginAuth'])->name('login.auth');   
+});
 
-Route::get('/dashboard-petugas', function () {
-    return view('petugas.dashboard');
-})->name('petugas.dashboard');
-
-Route::get('/petugas/product/index', function () {
-    return view('petugas.product.index');
-})->name('petugas.product.index');
-
-Route::get('/petugas/purchase/index', function () {
-    return view('petugas.purchase.index');
-})->name('petugas.purchase.index');
-
-Route::get('/petugas/purchase/create', function () {
-    return view('petugas.purchase.create');
-})->name('petugas.purchase.create');
-
-Route::get('/petugas/purchase/checkout', function () {
-    return 'Halaman Checkout (dummy)';
-})->name('petugas.purchase.checkout');
-
-Route::post('/petugas/purchase/payment', function () {
-    return view('petugas.purchase.payment');
-})->name('petugas.payment.store');
-
-Route::post('/petugas/purchase/receipt', function () {
-    return view('petugas.purchase.receipt');
-})->name('petugas.receipt.store');
-
-Route::get('/receipt/{order}', function ($order) {
-    return view('petugas.purchase.receipt', compact('order'));
-})->name('receipt.show');
-
-Route::get('/member/verification', function () {
-    return view('petugas.purchase.member');
-})->name('member.verification');
-
-Route::post('/member/verification', function () {
-    return 'Proses Verifikasi Member (dummy)';
-})->name('member.verify');
-
-Route::get('/order/verify-member', function () {
-    return view('petugas.purchase.member');
-})->name('order.verifyMemberForm');
+Route::get('/logout', [UserController::class, 'logout'])->name('logout');  
 
 
+Route::middleware(['auth', 'role:admin'])->group(function () {
+    Route::get('/admin/dashboard', [DashboardController::class, 'dashboardAdmin'])->name('admin.dashboard');
+    Route::get('/admin/user/index', [UserController::class, 'index'])->name('admin.user.index');
+    Route::get('/admin/user/create', [UserController::class, 'create'])->name('admin.user.create');
+    Route::post('/admin/user/store', [UserController::class, 'store'])->name('admin.user.store');
+    Route::get('/admin/user/{id}/edit', [UserController::class, 'edit'])->name('admin.user.edit');
+    Route::put('/admin/user/{id}/update', [UserController::class, 'update'])->name('admin.user.update');
+    Route::delete('/admin/user/{id}', [UserController::class, 'destroy'])->name('admin.user.destroy');
+
+    Route::get('/admin/product/index', [ProductController::class, 'index'])->name('admin.product.index');
+    Route::get('/admin/product/create', [ProductController::class, 'create'])->name('admin.product.create');
+    Route::post('/admin/product/store', [ProductController::class, 'store'])->name('admin.product.store');
+    Route::get('/admin/product/{id}/edit', [ProductController::class, 'edit'])->name('admin.product.edit');
+    Route::put('/admin/product/{id}', [ProductController::class, 'update'])->name('admin.product.update');
+    Route::put('/admin/product/{id}/update-stock', [ProductController::class, 'updateStock'])->name('admin.product.updateStock');
+    Route::delete('/admin/product/{id}', [ProductController::class, 'destroy'])->name('admin.product.destroy');
+
+    
+});
+
+
+Route::middleware(['auth', 'role:petugas'])->group(function () {
+
+    Route::get('/dashboard-petugas', [DashboardController::class, 'dashboardPetugas'])->name('petugas.dashboard');
+    
+    Route::get('/petugas/product/index', [ProductController::class, 'index'])->name('petugas.product.index');
+   
+
+    
+    
+});

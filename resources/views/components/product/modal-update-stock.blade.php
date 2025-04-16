@@ -39,7 +39,7 @@
             let productStock = button.getAttribute('data-stock');
     
             let form = document.getElementById('updateStockForm');
-            form.action = 
+            form.action = `/admin/product/${productId}/update-stock`
     
             document.getElementById('product_name').value = productName;
             document.getElementById('stock').value = productStock;

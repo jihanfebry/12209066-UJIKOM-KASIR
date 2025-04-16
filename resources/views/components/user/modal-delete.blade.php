@@ -29,7 +29,7 @@
         var userName = button.getAttribute('data-name');
 
         document.getElementById('deleteUserName').textContent = userName;
-        document.getElementById('deleteForm').action = 
+        document.getElementById('deleteForm').action = `/admin/user/${userId }}`;
     });
 </script>
 

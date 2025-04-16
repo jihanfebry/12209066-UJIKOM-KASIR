@@ -59,7 +59,7 @@
             } else {
                 form.style.display = "inline";
                 submitButton.style.display = "inline-block";
-                form.action = 
+                form.action = `/admin/product/${productId}`;
                 canDelete.classList.remove("d-none");
                 cannotDelete.classList.add("d-none");
             }

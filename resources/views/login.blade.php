@@ -19,7 +19,7 @@
                 <div class="card shadow-sm rounded-3">
                     <div class="card-body">
                         <h3 class="text-center mb-4 fw-bold">Log In Form</h3>
-                        <form method="POST" action="">
+                        <form method="POST" action="{{ route('login.auth') }}">
                             @csrf
 
                             @if (Session::has('failed'))
@@ -51,7 +51,7 @@
             </div>
         </div>
     </div>
-    {{-- @if(session('success'))
+    @if(session('success'))
     <script>
         setTimeout(function () {
         Swal.fire({
@@ -63,7 +63,9 @@
             timerProgressBar: true,
             backdrop: false 
         });
-    }, 100); --}}
+    }, 100);
+    </script>
+    @endif
 </body>
 </html>
 

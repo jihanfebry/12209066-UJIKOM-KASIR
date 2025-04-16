@@ -1,9 +1,11 @@
    <!-- ======= Sidebar ======= -->
    <aside id="sidebar" class="sidebar">
     <ul class="sidebar-nav" id="sidebar-nav">
-       
+        @php
+            $userRole = auth()->user()->role;
+        @endphp
 
-    
+        @if ($userRole === 'admin')
             <li class="nav-item">
                 <a class="nav-link {{ request()->routeIs('admin.dashboard') ? '' : 'collapsed' }}" href="{{ route('admin.dashboard') }}">
                     <i class="bi bi-grid"></i>
@@ -17,7 +19,7 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link {{ request()->routeIs('admin.purchase.*') ? '' : 'collapsed' }}" href="{{route('admin.purchase.index')}}">
+                <a class="nav-link {{ request()->routeIs('admin.purchase.*') ? '' : 'collapsed' }}" href="">
                     <i class="bi bi-cart"></i>
                     <span>Penjualan</span>
                 </a>
@@ -25,12 +27,14 @@
             <li class="nav-item">
                 <a class="nav-link {{ request()->routeIs('admin.user.*') ? '' : 'collapsed' }}" href="{{ route('admin.user.index') }}">
                     <i class="bi bi-people"></i>
-                    <span>User</span>
+                    <span>Pengguna
+                        
+                    </span>
                 </a>
             </li>
-      
+        @endif
 
-        
+        @if ($userRole === 'petugas')
             <li class="nav-item">
                 <a class="nav-link {{ request()->routeIs('petugas.dashboard') ? '' : 'collapsed' }}" href="{{ route('petugas.dashboard') }}">
                     <i class="bi bi-grid"></i>
@@ -44,11 +48,11 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link {{ request()->routeIs('petugas.purchase.*') ? '' : 'collapsed' }}" href="{{route('petugas.purchase.index')}}">
+                <a class="nav-link {{ request()->routeIs('petugas.purchase.*') ? '' : 'collapsed' }}" href="">
                     <i class="bi bi-cart"></i>
                     <span>Penjualan</span>
                 </a>
             </li>
-     
+        @endif
     </ul>
 </aside>

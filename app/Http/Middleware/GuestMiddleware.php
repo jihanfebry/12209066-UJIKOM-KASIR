@@ -17,7 +17,16 @@ class GuestMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
-        
+        if(Auth::check()){
+            $user = Auth::user();
+
+            if($user->role == 'admin'){
+                return redirect()->route('admin.dashboard');
+            } elseif($user->role == 'petugas'){
+                return redirect()->route('petugas.dashboard');
+            }
+        }
+
         return $next($request);
     }
 }
