@@ -13,7 +13,6 @@
         <div class="card shadow-sm border-0 rounded-lg">
             <div class="card-body p-4">
                 <div class="row">
-                    {{-- Kiri: Produk --}}
                     <div class="col-md-6">
                         <table class="table table-bordered mb-4">
                             <thead class="table-light">
@@ -25,41 +24,41 @@
                                 </tr>
                             </thead>
                             <tbody>
-                               
+                                @foreach ($productDetails as $item)
                                     <tr>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
+                                        <td>{{ $item['name'] }}</td>
+                                        <td>{{ $item['jumlah'] }}</td>
+                                        <td>Rp. {{ number_format($item['price'], 0, ',', '.') }}</td>
+                                        <td>Rp. {{ number_format($item['subtotal'], 0, ',', '.') }}</td>
                                     </tr>
-                             
+                                @endforeach
                             </tbody>
                         </table>
 
                         <div class="text-end fw-bold">
-                            <p></p>
-                            <p></p>
+                            <p>Total Harga: Rp. {{ number_format($transactionData['total_price'], 0, ',', '.') }}</p>
+                            <p>Total Bayar: Rp. {{ number_format($transactionData['amount_paid'], 0, ',', '.') }}</p>
                         </div>
                     </div>
 
-                    {{-- Kanan: Form Member --}}
+                  
                     <div class="col-md-6">
-                        <form method="POST" action="">
+                        <form method="POST" action="{{ route('member.verify') }}">
                             @csrf
 
                             @if($isReturningCustomer)
                             <div class="mb-3">
                                 <label class="form-label">Nama Member</label>
-                                <input type="text" name="" value="{{ $transactionData[''] }}" class="form-control" readonly>
+                                <input type="text" name="name" value="{{ $transactionData['name'] }}" class="form-control" readonly>
                             </div>
                         @else
                             <div class="mb-3">
                                 <label class="form-label">Nama Member Baru</label>
-                                <input type="text" name="" value="" class="form-control" required>
+                                <input type="text" name="name" value="{{ old('name') }}" class="form-control" required>
                             </div>
                         @endif
 
-                            <input type="hidden" name="phone" value="{{ $transactionData[''] ?? '' }}">
+                            <input type="hidden" name="phone" value="{{ $transactionData['phone'] ?? '' }}">
 
                             <div class="mb-3">
                                 <label class="form-label fw-semibold">Poin </label>
@@ -69,9 +68,9 @@
                             </div>
 
                             <div class="form-check mb-2">
-                                <input type="checkbox" class="form-check-input" name="" id=""
+                                <input type="checkbox" class="form-check-input" name="use_points" id="use_points"
                                     {{ $isReturningCustomer ? '' : 'disabled' }}>
-                                <label class="form-check-label" for="">Gunakan poin</label>
+                                <label class="form-check-label" for="use_points">Gunakan poin</label>
                             </div>
 
                             @if (!$isReturningCustomer)
@@ -85,7 +84,7 @@
                             </div>
                         </form>
                     </div>
-                </div> {{-- row --}}
+                </div>
             </div>
         </div>
     </section>

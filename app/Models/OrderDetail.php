@@ -2,29 +2,29 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class OrderDetail extends Model
 {
     use HasFactory;
-    protected $fillable = [
-        'product_image',
-        'product_name',
-        'price',
-        'stock'
-    ];
-    
 
-    public function orderDetails()
+    protected $fillable = [
+        'order_id',
+        'product_id',
+        'quantity',
+        'unit_price',
+        'subtotal'
+    ];
+
+    public function order()
     {
-        return $this->hasMany(OrderDetail::class);
+        return $this->belongsTo(Order::class);
     }
 
-    public function orders()
+    public function product()
     {
-        return $this->belongsToMany(Order::class, 'order_details')
-            ->withPivot('quantity', 'unit_price', 'subtotal')
-            ->withTimestamps();
+        return $this->belongsTo(Product::class);
     }
 }
+

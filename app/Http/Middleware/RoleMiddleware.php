@@ -8,6 +8,8 @@ use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Support\Facades\Auth;
 
+
+
 class RoleMiddleware
 {
     /**
@@ -18,11 +20,11 @@ class RoleMiddleware
     public function handle(Request $request, Closure $next, $role): Response
     {
 
-        if(!auth()->check()){
+        if(!Auth::check()){
             return redirect()->route('login')->with('failed', 'Silakan login terlebih dahulu');
         }
 
-        $user = auth()->user();
+        $user = Auth::user();
 
         if($user->role !==$role){
             return abort(403, 'Unauthorized');

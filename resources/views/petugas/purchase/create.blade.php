@@ -4,42 +4,42 @@
             <h1>Halaman Tambah Penjualan</h1>
             <nav>
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="{{route('petugas.purchase.index')}}">Daftar penjualan</a></li>
+                    <li class="breadcrumb-item"><a href="{{ route('petugas.purchase.index') }}">Daftar penjualan</a></li>
                     <li class="breadcrumb-item active">Tambah penjualan</li>
                 </ol>
             </nav>
         </div>
         
         <div class="row">
-          
+            @foreach($products as $product)
             <div class="col-md-4">
                 <div class="card text-center p-3">
-                    <img src="" 
+                    <img src="{{ asset('storage/' . $product->product_image) }}" 
                          class="card-img-top" 
-                         alt="" 
+                         alt="{{ $product->product_name }}" 
                          style="height: 150px; object-fit: contain;">
 
                     <div class="card-body">
-                        <h5 class="card-title"></h5>
-                        <p class="text-muted">Stok: <span id="stock-"></span></p>
-                        <p class="fw-bold"></p>
+                        <h5 class="card-title">{{ $product->product_name }}</h5>
+                        <p class="text-muted">Stok: <span id="stock-{{ $product->id }}">{{ $product->stock }}</span></p>
+                        <p class="fw-bold">Rp. {{ number_format($product->price, 0, ',', '.') }}</p>
 
                         <div class="d-flex justify-content-center align-items-center">
-                            <button class="btn btn-outline-primary btn-minus" data-id="" data-price="">-</button>
-                            <span class="mx-2 jumlah" id="jumlah-">0</span>
-                            <button class="btn btn-outline-primary btn-plus" data-id="" data-price="" data-stock="">+</button>
+                            <button class="btn btn-outline-primary btn-minus" data-id="{{ $product->id }}" data-price="{{ $product->price }}">-</button>
+                            <span class="mx-2 jumlah" id="jumlah-{{ $product->id }}">0</span>
+                            <button class="btn btn-outline-primary btn-plus" data-id="{{ $product->id }}" data-price="{{ $product->price }}" data-stock="{{ $product->stock }}">+</button>
                         </div>
 
-                        <p class="mt-2">Sub Total: <strong class="subtotal" id="subtotal-">Rp. 0</strong></p>
+                        <p class="mt-2">Sub Total: <strong class="subtotal" id="subtotal-{{ $product->id }}">Rp. 0</strong></p>
                     </div>
                 </div>             
             </div>
-      
+            @endforeach
         </div>     
 
-        {{-- Footer dengan tombol Selanjutnya --}}
+       
         <div class="fixed-bottom bg-white p-3 shadow-lg d-flex justify-content-center">
-            <a href="" id="btn-selanjutnya" class="btn btn-secondary px-4 py-2" disabled>Selanjutnya</a>
+            <a href="{{ route('petugas.purchase.checkout') }}" id="btn-selanjutnya" class="btn btn-secondary px-4 py-2" disabled>Selanjutnya</a>
         </div>
         
 
@@ -130,7 +130,7 @@
                 });
             });
     
-            restoreCart(); 
+            restoreCart(); // Pastikan data tetap ada setelah reload
         });
     </script>
     

@@ -3,7 +3,7 @@
         <h1>Halaman Penjualan</h1>
         <nav>
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="">Penjualan</a></li>
+                <li class="breadcrumb-item"><a href="{{route('petugas.purchase.index')}}">Penjualan</a></li>
                 <li class="breadcrumb-item active"> Daftar penjualan</li>
             </ol>
         </nav>
@@ -13,7 +13,9 @@
         <div class="card-body p-1">
             <div class="container mt-4">
                 <div class="d-flex justify-content-between mb-3">
-                    <a href="" style="height: 40px;" class="btn btn-success">Export Penjualan (.xlsx)</a>
+                    <a href="{{route('penjualan.export') }}" style="height: 40px;" class="btn btn-success">Export Penjualan (.xlsx)</a>
+                    
+                     
                 </div>
 
                 <div class="table-responsive">
@@ -29,25 +31,32 @@
                             </tr>
                         </thead>
                         <tbody>
-                           
+                            @foreach ($orders as $index => $order)
                                 <tr>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
+                                    <td>{{ $index + 1 }}</td>
+                                    <td>{{ $order->customer->name ?? 'NON–MEMBER' }}</td>
+                                    <td>{{ $order->created_at->format('Y-m-d') }}</td>
+                                    <td>Rp. {{ number_format($order->final_price, 0, ',', '.') }}</td>
+                                    <td>{{ $order->user->name}}</td>
                                     <td class="text-end">
-                                        <a href="#" class="btn btn-warning btn-sm">Lihat</a>
-                                        <a href="#" class="btn btn-primary btn-sm">Unduh Bukti</a>
+                                        <button type="button" class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#detailModal-{{ $order->id }}">
+                                            Lihat
+                                        </button>                                                                                                           
+                                        <a href="" class="btn btn-primary btn-sm">Unduh Bukti</a>
                                     </td>
                                 </tr>
-                           
+                            @endforeach
                         </tbody>
                     </table>
                 </div>
             </div>
         </div>
     </div>
+    
+   
+    @foreach ($orders as $order)
+        <x-detail-penjualan :order="$order" />
+    @endforeach
 
     @push('scripts')
         <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap5.min.css">

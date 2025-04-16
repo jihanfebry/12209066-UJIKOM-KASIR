@@ -13,15 +13,17 @@
     </style>
 </head>
 <body>
-    <h3>Kasir Application</h3>
+    <h3>PointKasir</h3>
 
-    
+    @php
+    $isMember = $order->customer && $order->customer->phone;
+    @endphp
 
 <p>
-    Member Status: <br>
-    No. HP: <br>
-    Bergabung Sejak:<br>
-    Poin Member: 
+    Member Status: {{ $isMember ? 'Member' : 'Bukan Member' }}<br>
+    No. HP: {{ $isMember ? $order->customer->phone : '-' }}<br>
+    Bergabung Sejak: {{ $isMember ? \Carbon\Carbon::parse($order->customer->created_at)->translatedFormat('d F Y') : '-' }}<br>
+    Poin Member: {{ $isMember ? number_format($order->customer->points, 0, ',', '.') : '-' }}
 </p>  
 
     <table>
@@ -34,12 +36,12 @@
             </tr>
         </thead>
         <tbody>
-         
+            @foreach ($order->orderDetails as $item)
             <tr>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
+                <td>{{ $item->product->product_name }}</td>
+                <td>{{ $item->quantity }}</td>
+                <td>Rp. {{ number_format($item->unit_price, 0, ',', '.') }}</td>
+                <td>Rp. {{ number_format($item->subtotal, 0, ',', '.') }}</td>
             </tr>
             @endforeach
         </tbody>
@@ -48,28 +50,24 @@
     <table class="summary no-border">
         <tr>
             <td><strong>Total Harga</strong></td>
-            <td class="text-end"></td>
+            <td class="text-end">Rp. {{ number_format($order->orderDetails->sum('subtotal'), 0, ',', '.') }}</td>
         </tr>
         <tr>
             <td><strong>Poin Digunakan</strong></td>
-            <td class="text-end"></td>
+            <td class="text-end">{{ number_format($order->discount, 0, ',', '.') }}</td>
         </tr>
         <tr>
             <td><strong>Harga Setelah Poin</strong></td>
-            <td class="text-end"></td>
-        </tr>
-        <tr>
-            <td><strong>Total Bayar</strong></td>
-            <td class="text-end"></td>
+            <td class="text-end">Rp. {{ number_format($order->final_price, 0, ',', '.') }}</td>
         </tr>
         <tr>
             <td><strong>Total Kembalian</strong></td>
-            <td class="text-end"></td>
+            <td class="text-end">Rp. {{ number_format($order->change, 0, ',', '.') }}</td>
         </tr>
     </table>
 
     <p class="text-center" style="margin-top: 20px;">
-       <br>
+        {{ $order->created_at }} | {{ $order->user->name ?? 'Petugas' }}<br>
         <strong>Terima kasih atas pembelian Anda!</strong>
     </p>
 </body>

@@ -13,11 +13,10 @@
         <div class="card-body p-1">
             <div class="container mt-4">
                 <div class="d-flex justify-content-between mb-3">
-                    <a href="" style="height: 40px;" class="btn btn-success">Export Penjualan (.xlsx)</a>
-
+                    <a href="{{route('penjualan.export') }}" style="height: 40px;" class="btn btn-success">Export Penjualan (.xlsx)</a>
                     <div class="d-flex justify-content-between align-items-center mb-3">
                         <div></div>
-                        <a href="{{ route('petugas.purchase.create') }}" class="btn btn-primary">Tambah Produk</a>
+                        <a href="{{ route('petugas.purchase.create') }}" class="btn btn-primary">Tambah Penjualan</a>
                     </div>
                 </div>
 
@@ -34,23 +33,21 @@
                             </tr>
                         </thead>
                         <tbody>
-                           
+                            @foreach ($orders as $index => $order)
                                 <tr>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
+                                    <td>{{ $index + 1 }}</td>
+                                    <td>{{ $order->customer->name ?? 'NON–MEMBER' }}</td>
+                                    <td>{{ $order->created_at->format('Y-m-d') }}</td>
+                                    <td>Rp. {{ number_format($order->final_price, 0, ',', '.') }}</td>
+                                    <td>{{ $order->user->name}}</td>
                                     <td class="text-end">
-                                        <button type="button" class="btn btn-warning btn-sm"
-                                        data-bs-toggle="modal"
-                                        data-bs-target="#detailModal-">
+                                        <button type="button" class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#detailModal-{{ $order->id }}">
                                             Lihat
                                         </button>                                                                                                           
-                                        <a href="" class="btn btn-primary btn-sm">Unduh Bukti</a>
+                                        <a href="{{ route('order.print', $order->id) }}"  target="_blank"  class="btn btn-primary btn-sm">Unduh Bukti</a>
                                     </td>
                                 </tr>
-                           
+                            @endforeach
                         </tbody>
                     </table>
                 </div>
@@ -59,9 +56,9 @@
     </div>
     
    
-   
-        <x-detail-penjualan />
-    
+    @foreach ($orders as $order)
+        <x-detail-penjualan :order="$order" />
+    @endforeach
 
     @push('scripts')
         <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap5.min.css">

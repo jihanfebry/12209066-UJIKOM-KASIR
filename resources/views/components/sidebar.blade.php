@@ -19,7 +19,7 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link {{ request()->routeIs('admin.purchase.*') ? '' : 'collapsed' }}" href="">
+                <a class="nav-link {{ request()->routeIs('admin.purchase.*') ? '' : 'collapsed' }}" href="{{ route('admin.purchase.index') }}">
                     <i class="bi bi-cart"></i>
                     <span>Penjualan</span>
                 </a>
@@ -48,7 +48,7 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link {{ request()->routeIs('petugas.purchase.*') ? '' : 'collapsed' }}" href="">
+                <a class="nav-link {{ request()->routeIs('petugas.purchase.*') ? '' : 'collapsed' }}" href="{{route('petugas.purchase.index')}}">
                     <i class="bi bi-cart"></i>
                     <span>Penjualan</span>
                 </a>

@@ -4,7 +4,7 @@
     <h1>Halaman Dashboard</h1>
     <nav>
       <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a href="">Dashboard</a></li>
+        <li class="breadcrumb-item"><a href="{{ route('admin.dashboard') }}">Dashboard</a></li>
         <li class="breadcrumb-item active">Dashboard admin</li>
       </ol>
     </nav>
@@ -21,7 +21,7 @@
           <div class="card-body d-flex flex-column flex-md-row justify-content-between align-items-center p-4">
             <div>
               <h5 class="card-title">Total Semua Penjualan</h5>
-              <h2 class="fw-bold text-primary">22</h2>
+              <h2 class="fw-bold text-primary">{{ $totalPenjualanSemuaPetugas }}</h2>
             </div>
             <div class="text-muted small mt-3 mt-md-0">
               Terakhir diperbarui: {{ \Carbon\Carbon::now()->format('d M Y H:i') }}
@@ -30,7 +30,13 @@
         </div>
       </div>
 
-   
+      @php
+        $barLabels = $salesPerDay->pluck('date')->map(fn($d) => \Carbon\Carbon::parse($d)->format('d M'))->toArray();
+        $barData = $salesPerDay->pluck('total_orders')->toArray();
+
+        $pieLabels = $productsSold->pluck('product_name')->toArray();
+        $pieData = $productsSold->pluck('total_qty')->toArray();
+      @endphp
 
       {{-- Bar Chart --}}
       <div class="col-lg-6">
@@ -44,10 +50,10 @@
                 new Chart(document.querySelector('#barChart'), {
                   type: 'bar',
                   data: {
-                   labels: // labels:  , ini isi
+                    labels: @json($barLabels),
                     datasets: [{
                       label: 'Jumlah Transaksi',
-                      data: // data: , ini isi
+                      data: @json($barData),
                       backgroundColor: 'rgba(54, 162, 235, 0.5)',
                       borderColor: 'rgba(54, 162, 235, 1)',
                       borderWidth: 1
@@ -90,10 +96,10 @@
                 new Chart(document.querySelector('#pieChart'), {
                   type: 'pie',
                   data: {
-                  labels:  // labels: , ini isi
+                    labels: @json($pieLabels),
                     datasets: [{
                       label: 'Produk Terjual',
-                     data : // data:  , ini isi
+                      data: @json($pieData),
                       backgroundColor: [
                         'rgb(255, 99, 132)',
                         'rgb(54, 162, 235)',
